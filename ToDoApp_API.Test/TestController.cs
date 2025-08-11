@@ -29,7 +29,7 @@ namespace ToDoApp_API.Test
             _controller = new TaskController(_service);
         }
 
-        //Testcase for check task list empty then return empty
+        //1.Testcase for check task list empty then return empty
         [Fact]
         public void GetTasks_WhenEmpty_ReturnsEmptyList()
         {
@@ -42,7 +42,7 @@ namespace ToDoApp_API.Test
             Assert.Empty(tasks);
         }
 
-        //get task by Id when add a multiple task in list
+        //2.get task by Id when add a multiple task in list
 
         [Fact]
         public void GetTasks_AfterAddingMultiple_ReturnsAll()
@@ -58,7 +58,7 @@ namespace ToDoApp_API.Test
             Assert.Equal(2, result.Count());
         }
 
-        // Test case for Get a valid task
+        // 3. Test case for Get a valid task
         [Fact]
         public void GetTaskById_Valid_Success()
         {
@@ -71,7 +71,7 @@ namespace ToDoApp_API.Test
             Assert.Equal("Test", result.Name);
         }
 
-        // Get a invalid task
+        //4. Get a invalid task
         [Fact]
         public void GetTaskById_Invalid_Fails()
         {
@@ -83,7 +83,7 @@ namespace ToDoApp_API.Test
             Assert.Null(result);
         }
 
-        //Test case for add a valid task
+        //5. Test case for add a valid task
         [Fact]
         public void AddTask_ValidTask_Returned()
         {
@@ -100,7 +100,7 @@ namespace ToDoApp_API.Test
             Assert.Equal(ToTaskStatus.NotStarted, addedTask.Status);
         }
 
-        //Test case for when enter duplicate task name enter
+        //6. Test case for when enter duplicate task name enter
         [Fact]
         public void AddTask_DuplicateName_ReturnsBadRequest()
         {
@@ -115,7 +115,7 @@ namespace ToDoApp_API.Test
             Assert.Equal("Task name already exists", badRequest.Value);
         }
 
-        //Test case for Add a empty task name
+        //7.Test case for Add a empty task name
         [Fact]
         public void AddTask_EmptyName_ReturnsBadRequest()
         {
@@ -126,7 +126,7 @@ namespace ToDoApp_API.Test
             Assert.Equal("Task name is required", badRequest.Value);
         }
 
-        //Test Case for Remove the whitespaces
+        //8.Test Case for Remove the whitespaces
         [Fact]
         public void AddTask_NameWithSpaces_TrimmedAndSuccess()
         {
@@ -139,7 +139,7 @@ namespace ToDoApp_API.Test
             Assert.Equal("My Task", task.Name);
         }
 
-        //Test case for Update the data
+        //9. Test case for Update the data
         [Fact]
         public void UpdateTask_Valid_ReturnsOk()
         {
@@ -153,7 +153,7 @@ namespace ToDoApp_API.Test
             Assert.Null(result.Error);
         }
 
-        //Test case for update duplicate task name
+        //10. Test case for update duplicate task name
         [Fact]
         public void UpdateTask_DuplicateName_ReturnsError()
         {
@@ -166,7 +166,7 @@ namespace ToDoApp_API.Test
             Assert.False(result.Success);
             Assert.Equal("Task name already exists", result.Error);
         }
-        //Test case forTask name not alllowed a null value
+        //11.Test case forTask name not alllowed a null value
         [Fact]
         public void UpdateTask_NameIsNullOrEmpty_ReturnsError()
         {
@@ -179,7 +179,7 @@ namespace ToDoApp_API.Test
             Assert.Equal("Task name is required", result.Error);
             _mockRepo.Verify(r => r.Update(It.IsAny<TaskModel>()), Times.Never);
         }
-        //Test case for update the Status
+        //12.Test case for update the Status
         [Fact]
         public void UpdateTask_StatusChange_Success()
         {
@@ -190,7 +190,7 @@ namespace ToDoApp_API.Test
             Assert.True(result.Success);
         }
 
-        //Test case for completed task deleted
+        //13.Test case for completed task deleted
         [Fact]
         public void DeleteTask_Completed_ReturnsSuccess()
         {
@@ -205,7 +205,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Delete(id), Times.Once);
         }
 
-        // Test case for Not Completed task not deleted
+        //14. Test case for Not Completed task not deleted
         [Fact]
         public void DeleteTask_NotCompleted_ReturnsError()
         {
@@ -218,7 +218,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
         }
 
-        //Test case for Task not found
+        //15.Test case for Task not found
         [Fact]
         public void DeleteTask_NotFound_ReturnsError()
         {
@@ -230,7 +230,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
         }
 
-        //Test case for Invalid null Id  for delete
+        //16.Test case for Invalid null Id  for delete
         [Fact]
         public void DeleteTask_EmptyGuid_ReturnsError()
         {
@@ -241,7 +241,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Delete(It.IsAny<Guid>()), Times.Never);
         }
 
-        //Test case Set a default Nostarted Status if status is not selected
+        //17.Test case Set a default Nostarted Status if status is not selected
         [Fact]
         public void Status_DefaultsToNotStarted_IfNotProvided()
         {
@@ -253,7 +253,7 @@ namespace ToDoApp_API.Test
             Assert.Equal(ToTaskStatus.NotStarted, task.Status);
         }
 
-        //Test Case for priority should be enter 1 to 100 range
+        //18.Test Case for priority should be enter 1 to 100 range
         [Theory]
         [InlineData(0)]
         [InlineData(-5)]
@@ -271,7 +271,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Add(It.IsAny<TaskModel>()), Times.Never);
         }
 
-        //Test case for priority enter in between 1 t0 100 
+        //19.Test case for priority enter in between 1 t0 100 Add 
         [Theory]
         [InlineData(1)]
         [InlineData(100)]
@@ -290,7 +290,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Add(It.IsAny<TaskModel>()), Times.Once);
         }
 
-        // Test case for priority should be enter 1 to 100 range
+        // 20.Test case for priority should be enter 1 to 100 range Add
 
         [Theory]
         [InlineData(0)]
@@ -320,7 +320,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Update(It.IsAny<TaskModel>()), Times.Never);
         }
 
-        //Test case for priority enter in between 1 to 100
+        //21.Test case for priority enter in between 1 to 100
         [Theory]
         [InlineData(1)]
         [InlineData(100)]
@@ -346,7 +346,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Update(It.Is<TaskModel>(t => t.Priority == priority)), Times.Once);
         }
 
-        //Test case for not allow special character when add
+        //22.Test case for not allow special character when add
         [Theory]
         [InlineData("Task@123")]
         [InlineData("Hello!")]
@@ -366,7 +366,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Add(It.IsAny<TaskModel>()), Times.Never);
         }
 
-        //Test case for task name without special character
+        //23.Test case for task name without special character
         [Theory]
         [InlineData("Valid Task 1")]
         [InlineData("Another123")]
@@ -384,7 +384,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Add(It.IsAny<TaskModel>()), Times.Once);
         }
 
-        //Test case for task name not allow special character when update the task
+        //24.Test case for task name not allow special character when update the task
         [Theory]
         [InlineData("Update@Task")]
         [InlineData("Hello!Update")]
@@ -403,7 +403,7 @@ namespace ToDoApp_API.Test
             _mockRepo.Verify(r => r.Update(It.IsAny<TaskModel>()), Times.Never);
         }
 
-        //Test case for task name without special character for update
+        //25.Test case for task name without special character for update
         [Theory]
         [InlineData("ValidUpdate123")]
         [InlineData("Clean House")]
